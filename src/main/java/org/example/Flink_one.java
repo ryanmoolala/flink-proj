@@ -9,23 +9,24 @@ import org.apache.flink.metrics.MetricGroup;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.operators.StreamingRuntimeContext;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase;
-import org.apache.flink.streaming.connectors.kafka.config.OffsetCommitMode;
-import org.apache.flink.streaming.connectors.kafka.internals.AbstractFetcher;
-import org.apache.flink.streaming.connectors.kafka.internals.AbstractPartitionDiscoverer;
-import org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition;
-import org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicsDescriptor;
-import org.apache.flink.util.SerializedValue;
-
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class Flink_one {
 
+    Hashtable<String, Integer> wordCountMap = new Hashtable<String, Integer>();
 
+    public Tuple2<String, Integer> wordCount(String word) {
+        if (wordCountMap.containsKey(word)) {
+            wordCountMap.put(word, wordCountMap.get(word) + 1);
+        } else {
+            wordCountMap.put(word, 1);
+        }
+        return new Tuple2<String, Integer>(word, wordCountMap.get(word));
+    }
 
-    public static void main(String[] args) {
+    public void test_flink_one() {
         //This is a simple Flink program that reads from a Kafka topic and performs a word count.
 
         //getExecutionEnvironment() --> creates the StreamExecutionEnvironment for the program
@@ -43,13 +44,18 @@ public class Flink_one {
                 WatermarkStrategy.noWatermarks(),
                 "Kafka Source");
 
-
+        //perform stream operations on data_stream
+        data_stream.print();
 
         //perform sink operations
-        //results.print();
+//        results.print();
+        try {
+            stream_env.execute("Flink Word Concatenation");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //env.execute() ->
         // trigger execution of above program, wait for the job to finish and
         // then return a JobExecutionResult, this contains execution times and accumulator results.
     }
-
 }
