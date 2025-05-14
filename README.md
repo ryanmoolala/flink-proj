@@ -49,7 +49,7 @@ Kafka command-line tools are located in the `./bin` directory.
 ### 🔹 Create a Topic
 
 ```bash
-./bin/kafka-topics.sh --bootstrap-server kafka:9092 \
+./bin/kafka-topics.sh --bootstrap-server localhost:9092 \
   --create \
   --topic my-topic \
   --partitions 1 \
@@ -59,7 +59,7 @@ Kafka command-line tools are located in the `./bin` directory.
 ### 🔹 Start a Producer
 
 ```bash
-./bin/kafka-console-producer.sh --broker-list kafka:9092 --topic my-topic
+./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my-topic
 ```
 
 Type your messages and press Enter to send them to the topic.
@@ -69,7 +69,7 @@ Type your messages and press Enter to send them to the topic.
 Consume messages from the beginning of the topic:
 
 ```bash
-./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 \
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
   --topic my-topic \
   --from-beginning
 ```
