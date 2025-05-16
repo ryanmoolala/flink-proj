@@ -70,6 +70,10 @@ Consume messages from the beginning of the topic:
 
 ```bash
 ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
-  --topic my-topic \
+  --topic flink_one \
   --from-beginning
 ```
+
+
+
+-verbose:class

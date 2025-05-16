@@ -18,29 +18,30 @@ public class Producer {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        String topic = "word_count";
+        String topic = "flink_one";
         String key = "key"; //decides which parition record will go to
         //decides the value of the record
 
-        String[] words = {
-                "The", "boy", "walked", "to", "the", "river", ".",
-                "The", "boy", "saw", "a", "bird", "by", "the", "river", ".",
-                "The", "bird", "looked", "at", "the", "boy", ",",
-                "and", "the", "boy", "smiled", ".",
-                "The", "river", "flowed", "quietly", ",",
-                "as", "if", "it", "too", "was", "watching", "the", "boy", "and", "the", "bird", "."
-        };
+        String[] words = {"Kafka"};
 
+//                {
+//                "The", "boy", "walked", "to", "the", "river", ".",
+//                "The", "boy", "saw", "a", "bird", "by", "the", "river", ".",
+//                "The", "bird", "looked", "at", "the", "boy", ",",
+//                "and", "the", "boy", "smiled", "."
+//        };
 
         for (String s : words) {
-            System.out.println("works");
             ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, s);
-            producer.send(record);
-            try {
-                Thread.sleep(10000); // Sleep for 1 second
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            producer.send(record, (metadata, exception) -> {
+                if (exception == null) {
+                    System.out.println("Message sent successfully to " + metadata.topic() +
+                            ", partition: " + metadata.partition() +
+                            ", offset: " + metadata.offset());
+                } else {
+                    System.err.println("Error sending message: " + exception.getMessage());
+                }
+            });
         }
         producer.close();
     }
