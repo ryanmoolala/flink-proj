@@ -1,0 +1,12 @@
+kafka:
+  bootstrapServers: "localhost:9092"
+  groupId: "test"
+  source:
+    topic: "football-input"
+    startingOffsets: "latest"
+  sink:
+    topic: "football-output"
+    deliveryGuarantee: "AT_LEAST_ONCE"
+
+flink:
+  jobName: "FlinkOneJob"
