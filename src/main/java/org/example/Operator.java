@@ -6,25 +6,16 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.util.Collector;
 
-public class Operations {
-    // This class can be used to define operations or methods that can be reused across different parts of the application.
+public class Operator {
+    // This class can be used to define Operator or methods that can be reused across different parts of the application.
     // Currently, it is empty, but you can add methods or fields as needed for your application logic.
-    public Operations() {
+    public Operator() {
         // Constructor can be used to initialize any resources or configurations if needed.
     }
 
     public SingleOutputStreamOperator<Tuple2<String, Integer>> processStream(DataStreamSource<String> inputStream) {
-        // Example method to process the input stream and return a transformed output stream.
-        KeyedStream<Tuple2<String, Integer>, String> keyedStream = inputStream
-        .flatMap(new Tokeniser())
-        .name("Tokeniser")
-        .keyBy(value -> value.f0);
-        
-        SingleOutputStreamOperator<Tuple2<String, Integer>> wordCounts = keyedStream
-        .sum(1)
-        .name("Word Count");
-
-        return wordCounts;
+        inputStream.print();
+        return null;
     }
 
     public class Tokeniser implements org.apache.flink.api.common.functions.FlatMapFunction<String, Tuple2<String, Integer>> {

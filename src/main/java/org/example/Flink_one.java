@@ -2,17 +2,15 @@ package org.example;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SerializationSchema;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.connector.base.DeliveryGuarantee;
-import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
-import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.formats.json.JsonDeserializationSchema;
+import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.Op;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
-import org.apache.flink.streaming.api.datastream.KeyedStream;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.util.Collector;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -20,7 +18,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.Yaml;
 
 public class Flink_one {
-    public Operations operator = new Operations(); 
+    public Operator operator = new Operator(); 
     public void test_flink_one() throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
@@ -49,7 +47,7 @@ public class Flink_one {
         String deliveryGuaranteeStr = (String) sinkConfig.get("deliveryGuarantee");
         DeliveryGuarantee deliveryGuarantee = DeliveryGuarantee.valueOf(deliveryGuaranteeStr);
 
-        //Source configuration using config.yaml values
+        //Source configuration using new JSON deserialization schema
         KafkaSource<String> source = KafkaSource.<String>builder()
                 .setBootstrapServers(bootstrapServers)
                 .setTopics(sourceTopic)
@@ -59,24 +57,24 @@ public class Flink_one {
                 .build();
 
         DataStreamSource<String> data = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
-
+        
         //Transformation: Tokenize the input data and count the occurrences of each word
-        SingleOutputStreamOperator<Tuple2<String, Integer>> wordCounts = operator.processStream(data);
+        operator.processStream(data);
 
         //Sink configuration using config.yaml values
-        KafkaSink<Tuple2<String, Integer>> sink = KafkaSink.<Tuple2<String, Integer>>builder()
-                .setBootstrapServers(bootstrapServers)
-                .setRecordSerializer(
-                    KafkaRecordSerializationSchema.builder()
-                        .setTopic(sinkTopic)
-                        .setValueSerializationSchema(new TupleSerializer())
-                        .build()
-                        )
-                .setDeliveryGuarantee(deliveryGuarantee)
-                .build();
+        // KafkaSink<Tuple2<String, Integer>> sink = KafkaSink.<Tuple2<String, Integer>>builder()
+        //         .setBootstrapServers(bootstrapServers)
+        //         .setRecordSerializer(
+        //             KafkaRecordSerializationSchema.builder()
+        //                 .setTopic(sinkTopic)
+        //                 .setValueSerializationSchema(new TupleSerializer())
+        //                 .build()
+        //                 )
+        //         .setDeliveryGuarantee(deliveryGuarantee)
+        //         .build();
 
-        wordCounts.sinkTo(sink)
-                .name("Kafka Sink");
+        // // wordCounts.sinkTo(sink)
+        // //         .name("Kafka Sink");
         
         //Execute the flink job
         env.execute();
@@ -87,5 +85,26 @@ public class Flink_one {
         public byte[] serialize(Tuple2<String, Integer> element) {
             return (element.f0 + "," + element.f1).getBytes();
         }
+    }
+
+    public class StringArrayDeserializer implements org.apache.flink.api.common.serialization.DeserializationSchema<String[]> {
+        @Override
+        public String[] deserialize(byte[] message) {
+            if (message == null || message.length == 0) {
+                return new String[0];
+            }
+            String str = new String(message);
+            return str.split(",");
+        }
+
+        @Override
+        public boolean isEndOfStream(String[] nextElement) {
+            return false;
+        }
+
+        @Override
+        public TypeInformation<String[]> getProducedType() {
+            return TypeInformation.of(String[].class);
+        }    
     }
 }

@@ -4,9 +4,16 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws Exception {
-        //Producer.produce(); //Sends the messages
-
-        Flink_one flink = new Flink_one(); //Create the flink processors
-        flink.test_flink_one();
+        // Run Flink_one asynchronously in a separate thread
+        Thread flinkThread = new Thread(() -> {
+            try {
+                new Flink_one().test_flink_one();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        flinkThread.start();        
+        // Run Reader separately (this will run concurrently with the Flink job)
+        Reader.run();
     }
 }
