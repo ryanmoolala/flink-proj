@@ -1,24 +1,27 @@
-Minute,Player,Country,Outcome,Distance,SCA 1,SCA 2
-12,Nico Williams,Spain,Blocked,11,Marc Cucurella - Pass (Live),
-13,Robin Le Normand,Spain,Off Target,8,Rodri - Pass (Live),Bukayo Saka - Pass (Live)
-17,Declan Rice,England,Blocked,28,Luke Shaw - Pass (Live),
-28,Fabián Ruiz Peña,Spain,Saved,15,Dani Carvajal - Pass (Live),Rodri - Pass (Live)
-35,Dani Olmo,Spain,Saved,18,Lamine Yamal - Pass (Live),
-43,Álvaro Morata,Spain,Blocked,26,Aymeric Laporte - Pass (Live),Jude Bellingham - Pass (Live)
-44,Harry Kane,England,Off Target,19,Kyle Walker - Fouled,Harry Kane - Shot
-45,Phil Foden,England,Saved,9,Kyle Walker - Fouled,
-47,Nico Williams,Spain,Goal,11,Lamine Yamal - Pass (Live),Dani Carvajal - Pass (Live)
-49,Dani Olmo,Spain,Off Target,13,Nico Williams - Pass (Live),
-55,Álvaro Morata,Spain,Blocked,12,Dani Carvajal - Pass (Live),
-56,Álvaro Morata,Spain,Saved,13,Lamine Yamal - Pass (Live),Robin Le Normand - Pass (Live)
-60,Nico Williams,Spain,Off Target,24,Fabián Ruiz Peña - Pass (Live),
-64,Jude Bellingham,England,Off Target,22,Phil Foden - Pass (Live),
-66,Lamine Yamal,Spain,Saved,16,Dani Olmo - Pass (Live),Álvaro Morata - Pass (Live)
-67,Aymeric Laporte,Spain,Blocked,12,Dani Olmo - Pass (Live),Lamine Yamal - Shot
-74,Fabián Ruiz Peña,Spain,Off Target,30,Dani Olmo - Pass (Live),Nico Williams - Pass (Live)
-77,Nico Williams,Spain,Blocked,30,Toni Kroos - Pass (Live),
-82,Lamine Yamal,Spain,Saved,14,Nico Williams - Pass (Live),Dani Olmo - Pass (Live)
-86,Mikel Oyarzabal,Spain,Goal,8,Marc Cucurella - Pass (Live),Mikel Oyarzabal - Pass (Live)
-90,Declan Rice,England,Saved,12,Cole Palmer - Pass (Dead),Jude Bellingham - Pass (Live)
-90,Marc Guéhi,England,Blocked,12, ,
-90,Declan Rice,England,Off Target,9,,Marc Guéhi - Shot
+Start of logs,
+Spain,England
+12,Nico Williams,Spain,0.03,,Blocked,11,Left Foot,,Marc Cucurella,Pass (Live),,
+13,Robin Le Normand,Spain,0.12,,Off Target,8,Right Foot,Volley,Rodri,Pass (Live),Nico Williams,Pass (Dead)
+17,Declan Rice,England,0.03,,Blocked,25,Right Foot,,Bukayo Saka,Pass (Live),Luke Shaw,Pass (Live)
+28,Fabián Ruiz Peña,Spain,0.05,0.02,Saved,18,Right Foot,Deflected,Dani Carvajal,Pass (Live),Rodri,Pass (Live)
+35,Dani Olmo,Spain,0.03,,Blocked,25,Right Foot,,Lamine Yamal,Pass (Live),Nico Williams,Pass (Dead)
+43,Álvaro Morata,Spain,0.07,,Blocked,8,Right Foot,,Aymeric Laporte,Pass (Live),Robin Le Normand,Pass (Live)
+45,Harry Kane,England,0.06,,Blocked,17,Right Foot,,Jude Bellingham,Pass (Live),Jude Bellingham,Tackle
+45+1,Phil Foden,England,0.06,0.22,Saved,9,Left Foot,Volley,Kyle Walker,Fouled,Harry Kane,Shot
+47,Nico Williams,Spain,0.1,0.89,Goal,11,Left Foot,,Lamine Yamal,Pass (Live),Dani Carvajal,Pass (Live)
+49,Dani Olmo,Spain,0.54,,Off Target,11,Left Foot,,Nico Williams,Pass (Live),Dani Olmo,Pass (Live)
+55,Álvaro Morata,Spain,0.02,,Blocked,26,Left Foot,,Dani Carvajal,Pass (Live),,
+55,Álvaro Morata,Spain,0.19,,Off Target,13,Right Foot,,Lamine Yamal,Pass (Live),Robin Le Normand,Pass (Live)
+56,Nico Williams,Spain,0.05,,Off Target,24,Right Foot,,Fabián Ruiz Peña,Pass (Live),,
+64,Jude Bellingham,England,0.04,,Off Target,22,Left Foot,,Bukayo Saka,Pass (Live),Phil Foden,Pass (Live)
+66,Lamine Yamal,Spain,0.08,0.29,Saved,16,Left Foot,,Dani Olmo,Pass (Live),Álvaro Morata,Pass (Live)
+67,Aymeric Laporte,Spain,0.03,,Blocked,12,Head,,Nico Williams,Pass (Dead),Lamine Yamal,Shot
+70,Fabián Ruiz Peña,Spain,0.03,,Off Target,30,Left Foot,,Dani Olmo,Pass (Live),Nico Williams,Pass (Live)
+70,Ollie Watkins,England,0.03,,Blocked,30,Right Foot,,,,,
+72,Mikel Oyarzabal,Spain,0.01,0.1,Saved,17,Left Foot,,Martín Zubimendi,Pass (Live),Martín Zubimendi,Take-On
+73,Cole Palmer,England,0.04,0.31,Goal,23,Left Foot,Deflected,Jude Bellingham,Pass (Live),Bukayo Saka,Pass (Live)
+82,Lamine Yamal,Spain,0.1,0.12,Saved,14,Left Foot,,Nico Williams,Pass (Live),Dani Olmo,Pass (Live)
+86,Mikel Oyarzabal,Spain,0.52,0.74,Goal,8,Right Foot,,Marc Cucurella,Pass (Live),Mikel Oyarzabal,Pass (Live)
+90,Declan Rice,England,0.04,0.02,Saved,12,Head,,Cole Palmer,Pass (Dead),Jude Bellingham,Pass (Live)
+90,Marc Guéhi,England,0.14,,Blocked,6,Head,,Declan Rice,Shot,,
+90,Declan Rice,England,0.12,,Off Target,9,Head,,Marc Guéhi,Shot,,
