@@ -2,14 +2,18 @@ package org.example;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SerializationSchema;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.connector.base.DeliveryGuarantee;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.formats.json.JsonDeserializationSchema;
 import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.Op;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 import java.io.FileInputStream;
@@ -59,22 +63,22 @@ public class Flink_one {
         DataStreamSource<String> data = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
         
         //Transformation: Tokenize the input data and count the occurrences of each word
-        operator.processStream(data);
+        SingleOutputStreamOperator<String> wordCounts = operator.processStream(data);
 
         //Sink configuration using config.yaml values
-        // KafkaSink<Tuple2<String, Integer>> sink = KafkaSink.<Tuple2<String, Integer>>builder()
-        //         .setBootstrapServers(bootstrapServers)
-        //         .setRecordSerializer(
-        //             KafkaRecordSerializationSchema.builder()
-        //                 .setTopic(sinkTopic)
-        //                 .setValueSerializationSchema(new TupleSerializer())
-        //                 .build()
-        //                 )
-        //         .setDeliveryGuarantee(deliveryGuarantee)
-        //         .build();
+        KafkaSink<String> sink = KafkaSink.<String>builder()
+                .setBootstrapServers(bootstrapServers)
+                .setRecordSerializer(
+                    KafkaRecordSerializationSchema.builder()
+                        .setTopic(sinkTopic)
+                        .setValueSerializationSchema(new SimpleStringSchema())
+                        .build()
+                        )
+                .setDeliveryGuarantee(deliveryGuarantee)
+                .build();
 
-        // // wordCounts.sinkTo(sink)
-        // //         .name("Kafka Sink");
+        wordCounts.sinkTo(sink)
+                .name("Kafka Sink");
         
         //Execute the flink job
         env.execute();
