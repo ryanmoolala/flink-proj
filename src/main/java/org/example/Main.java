@@ -10,7 +10,8 @@ public class Main {
                 e.printStackTrace();
             }
         });
-        flinkThread.start();        
+        flinkThread.start();
+        Thread.sleep(5000);        
         // Run Reader separately (this will run concurrently with the Flink job)
         Reader.run();
     }

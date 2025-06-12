@@ -22,7 +22,6 @@ import java.util.Map;
 import org.yaml.snakeyaml.Yaml;
 
 public class Flink_one {
-    public Operator operator = new Operator(); 
     public void test_flink_one() throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
@@ -61,9 +60,6 @@ public class Flink_one {
                 .build();
 
         DataStreamSource<String> data = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
-        
-        //Transformation: Tokenize the input data and count the occurrences of each word
-        SingleOutputStreamOperator<String> wordCounts = operator.processStream(data);
 
         //Sink configuration using config.yaml values
         KafkaSink<String> sink = KafkaSink.<String>builder()
@@ -76,7 +72,11 @@ public class Flink_one {
                         )
                 .setDeliveryGuarantee(deliveryGuarantee)
                 .build();
+        
+        Operator operator = new Operator(sink); 
 
+         //Transformation: Tokenize the input data and count the occurrences of each word
+        SingleOutputStreamOperator<String> wordCounts = operator.processStream(data);
         wordCounts.sinkTo(sink)
                 .name("Kafka Sink");
         

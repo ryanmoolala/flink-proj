@@ -32,25 +32,21 @@ public class Reader {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    // Skip lines that do not contain a comma (e.g., header metadata)
                     if (!line.contains(",")) {
                         continue;
                     }
-                    // Preserve trailing empty strings
                     String[] values = line.split(",", -1);
                     String jsonString = convertToJsonString(values);
                     
                     ProducerRecord<String, String> record = new ProducerRecord<>("football-input", jsonString);
                     producer.send(record);
-                    // Flush data synchronously
                     producer.flush();
-                    Thread.sleep(1000); // Delay between messages
+                    Thread.sleep(1000); // delay messages
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }   
-        System.out.println("All records sent successfully.");
         producer.close();    
     }
 
@@ -61,22 +57,21 @@ public class Reader {
             jsonObject.put("minute", values[0]);
             jsonObject.put("player", values[1]);
             jsonObject.put("team", values[2]);
-            jsonObject.put("time", values[3]);         // e.g., probability or time value
-            jsonObject.put("distance", values[4]);       // may be empty
+            jsonObject.put("time", values[3]);         
+            jsonObject.put("distance", values[4]);      
             jsonObject.put("outcome", values[5]);
             jsonObject.put("score", values[6]);
             jsonObject.put("foot", values[7]);
             jsonObject.put("assist_player", values[9]);
             jsonObject.put("assist_type", values[10]);
         } else if (values.length == 2) {
-            // Fallback: if there are not enough columns, map what is available using a simple key
+            //for the first row of the csv file, which contains team names
             jsonObject.put("team_a", values[0]);
             jsonObject.put("team_b", values[1]);
         }
         return jsonObject.toString();
     }
 
-    // New serializer to convert String[] to JSON formatted string
     public static class JsonSerializer implements org.apache.kafka.common.serialization.Serializer<String[]> {
         @Override
         public byte[] serialize(String topic, String[] data) {
