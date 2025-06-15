@@ -105,13 +105,11 @@ public class Operator {
             highlightJson.put("foot", foot);
             highlightJson.put("distance", distance);
             highlightJson.put("highlight", highlight);
-            highlightJson.put("team_score", team_score);
             //System.out.println(highlight)
             if (team_score_highlight.length() != 0) {
                 highlightJson.put("team_score", team_score);
             } 
             return highlightJson.toString();
-            //return highlight + "\n" + team_score_highlight;
         }
     }
 }
