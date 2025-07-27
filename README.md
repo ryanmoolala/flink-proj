@@ -1,4 +1,4 @@
-Got bored this summer and decided to create this project, which is a real-time data processing and analysis program that ingests football game events, processes them using stream processing, and displays the results on a dynamic dashboard. 
+Got bored this summer and decided to create this project, which is a real-time data processing and analysis program that ingests football game events, processes them using stream processing, and displays the results on a dynamic dashboard. This marks my journey in data engineering and potentially big data engineering
 
 ## Tech Stack
 
