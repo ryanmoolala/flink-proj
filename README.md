@@ -21,10 +21,10 @@ Got bored this summer and decided to create this project, which is a real-time d
    - Kafka distributes these messages to consumers.
 
 2. **Stream Processing (Flink):**  
-   - A dedicated Flink job consumes data from Kafka (`football-input`), processes the events (e.g., calculating current scores or analyzing game highlights), and produces processed outputs to another topic (e.g., `football-output`).
+   - A dedicated Flink job consumes data from Kafka, processes the events (e.g., calculating current scores or analyzing game highlights), and produces processed outputs to another topic (e.g., `football-output`).
 
 3. **Real-Time Data Delivery (Express + SSE):**  
-   - An Express server uses KafkaJS to consume messages from the `football-output` topic.  
+   - An Express server uses KafkaJS to consume messages from the topic.  
    - The server exposes an `/events` endpoint that uses Server-Sent Events (SSE) to push processed data to the frontend as soon as messages arrive.
 
 4. **Dynamic Dashboard (Next.js/React):**  
@@ -33,50 +33,11 @@ Got bored this summer and decided to create this project, which is a real-time d
 
 
 ## Data source
-
 For demonstration purposes, this project uses shot log data sourced from [FBref](https://fbref.com/en/matches/e307ecc0/Spain-England-July-14-2024-UEFA-Euro-2024).
 
 
 
-
-
-# 🐳 Apache Kafka Docker Quickstart
-
-This guide walks you through running **Apache Kafka 4.0.0** in Docker and executing basic Kafka CLI operations such as creating topics, producing, and consuming messages.
-
-## 📦 1. Pull Kafka Docker Image
-
-```bash
-docker pull apache/kafka:4.0.0
-```
-
-## 🚀 2. Run Kafka Container
-
-```bash
-docker run -p 9092:9092 apache/kafka:4.0.0
-```
-
-This runs Kafka and maps container port 9092 to your local machine.
-
-## 🔍 3. Check Container Status
-
-```bash
-docker ps
-```
-
-Find the container ID or name from the output.
-
-## 🖥️ 4. Access the Kafka Container
-
-```bash
-docker exec -it <container_id_or_name> /bin/bash
-```
-
-Then navigate to the Kafka installation directory:
-
-```bash
-cd /opt/kafka/
-```
+# 🐳 Apache Kafka Quickstart
 
 ## ⚙️ 5. Kafka CLI Commands
 
@@ -93,7 +54,15 @@ Kafka command-line tools are located in the `./bin` directory.
 ```bash
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 \
   --create \
-  --topic my-topic \
+  --topic football-input \
+  --partitions 1 \
+  --replication-factor 1
+```
+
+```bash
+./bin/kafka-topics.sh --bootstrap-server localhost:9092 \
+  --create \
+  --topic football-output \
   --partitions 1 \
   --replication-factor 1
 ```
